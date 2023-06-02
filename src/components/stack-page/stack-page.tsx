@@ -8,7 +8,7 @@ import { Circle } from "../ui/circle/circle";
 import { Stack } from "./stack-class";
 import { ElementStates } from "../../types/element-states";
 import { delay } from "../../utils/utils";
-import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StackPage: React.FC = () => {
   const stack = useMemo(() => new Stack<TWord>(), []);
@@ -16,6 +16,7 @@ export const StackPage: React.FC = () => {
   const [value, setValue] = useState<string>("");
   const [addLoader, setAddLoader] = useState<boolean>(false);
   const [delLoader, setDelLoader] = useState<boolean>(false);
+  const [clearLoader, setClearLoader] = useState<boolean>(false);
 
   const clickPush = async () => {
     const oldTop = stack.getTop();
@@ -32,7 +33,7 @@ export const StackPage: React.FC = () => {
     };
     stack.push(newElem);
     setStack([...stack.getContainer()]);
-    await delay(SHORT_DELAY_IN_MS);
+    await delay(DELAY_IN_MS);
     newElem.state = ElementStates.Default;
     setAddLoader(false);
   };
@@ -41,8 +42,7 @@ export const StackPage: React.FC = () => {
     setDelLoader(true);
     const delElem = stack.getTop();
     if (delElem !== null) delElem.state = ElementStates.Changing;
-    console.log(delElem);
-    await delay(SHORT_DELAY_IN_MS);
+    await delay(DELAY_IN_MS);
     stack.pop();
     const newTop = stack.getTop();
     if (newTop !== null) newTop.head = "top";
@@ -50,9 +50,12 @@ export const StackPage: React.FC = () => {
     setDelLoader(false);
   };
 
-  const erase = () => {
+  const erase = async() => {
+    setClearLoader(true);
+    await delay(DELAY_IN_MS);
     stack.clear();
     setStack([...stack.getContainer()]);
+    setClearLoader(false);
   };
 
   return (
@@ -62,6 +65,7 @@ export const StackPage: React.FC = () => {
           extraClass={style.input}
           isLimitText={true}
           maxLength={4}
+          min={1}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setValue(e.target.value)
           }
@@ -72,6 +76,7 @@ export const StackPage: React.FC = () => {
           type="button"
           onClick={clickPush}
           isLoader={addLoader}
+          disabled={(value.length < 1 || delLoader || clearLoader) ? true : false}
         />
         <Button
           extraClass={style.delBtn}
@@ -79,13 +84,14 @@ export const StackPage: React.FC = () => {
           type="button"
           onClick={clickDelete}
           isLoader={delLoader}
-          disabled={stack ? false : true}
+          disabled={stack.getContainer().length === 0 || addLoader || clearLoader ? true : false}
         />
         <Button
           text="Очистить"
           type="button"
           onClick={erase}
-          disabled={stack ? false : true}
+          isLoader={clearLoader}
+          disabled={stack.getContainer().length === 0 || addLoader || delLoader ? true : false}
         />
       </div>
       <div className={style.circleCont}>

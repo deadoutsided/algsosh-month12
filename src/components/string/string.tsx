@@ -42,6 +42,7 @@ export const StringComponent: React.FC = () => {
           type="button"
           text="Развернуть"
           onClick={onSubmit}
+          disabled={(value.length - 1) > 11 || (value.length) < 1 ? true : false}
         />
       </div>
       <div className={style.circles}>

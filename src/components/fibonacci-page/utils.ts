@@ -11,7 +11,6 @@ function generateFibSeq(fibNum: number): TWord[] {
     } else {
       arr.push(arr[i - 1] + arr[i - 2]);
     }
-    console.log(arr);
   }
   let res: TWord[] = arr.map((el, i) => {
     return {

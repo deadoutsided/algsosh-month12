@@ -18,6 +18,7 @@ export const QueuePage: React.FC = () => {
   const [objQueue, setQueue] = useState<TWord[]>();
   const [addLoader, setAddLoader] = useState<boolean>(false);
   const [delLoader, setDelLoader] = useState<boolean>(false);
+  const [clearLoader, setClearLoader] = useState<boolean>(false);
   const [length, setLength] = useState<number>(0);
 
   useEffect(() => {
@@ -101,11 +102,14 @@ export const QueuePage: React.FC = () => {
     setDelLoader(false);
   };
 
-  const clear = () => {
+  const clear = async() => {
+    setClearLoader(true);
+    await delay(SHORT_DELAY_IN_MS);
     queue.erase();
     setLength(queue.getLength());
     initialQueue[0].state = ElementStates.Default;
     setQueue(initialQueue);
+    setClearLoader(false);
   };
 
   return (
@@ -125,7 +129,7 @@ export const QueuePage: React.FC = () => {
           type="button"
           onClick={() => addValue(value)}
           isLoader={addLoader}
-          disabled={value === "" ? true : false}
+          disabled={value === "" || delLoader || clearLoader? true : false}
         />
         <Button
           extraClass={style.delBtn}
@@ -133,13 +137,13 @@ export const QueuePage: React.FC = () => {
           type="button"
           onClick={deleteValue}
           isLoader={delLoader}
-          disabled={length === 0 || delLoader === true ? true : false}
+          disabled={length === 0 || addLoader || clearLoader ? true : false}
         />
         <Button
           text="Очистить"
           type="button"
           onClick={clear}
-          disabled={length === 0 ? true : false}
+          disabled={length === 0 || addLoader || delLoader ? true : false}
         />
       </div>
       <div className={style.circleCont}>

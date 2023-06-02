@@ -11,17 +11,16 @@ import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { nanoid } from "nanoid";
 import { delay } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { TLoader } from "../../types/loader-state";
+import { initialLoader } from "./util";
 
 export const ListPage: React.FC = () => {
   const list = useMemo(() => new LinkedList<string>(), []);
   const [value, setValue] = useState<string>("");
   const [index, setIndex] = useState<string>("");
-  const [listArr, setListArr] = useState<TWord[]>();
-  const [constAddLoader, setConstAddLoader] = useState<boolean>(false);
-  const [constDelLoader, setConstDelLoader] = useState<boolean>(false);
-  const [addLoader, setAddLoader] = useState<boolean>(false);
-  const [delLoader, setDelLoader] = useState<boolean>(false);
-
+  const [listArr, setListArr] = useState<TWord[]>([]);
+  const [loader, setLoader] = useState<TLoader>(initialLoader);
+  const isDisableByLoad = (loader.constAddLoaderHead || loader.constAddLoaderTail || loader.constDelLoaderHead || loader.constDelLoaderTail || loader.indexAddLoader || loader.indexDelLoader);
   useEffect(() => {
     let temp: TWord[] | null = [];
     for (let i = 0; i < 4; i++) {
@@ -36,7 +35,6 @@ export const ListPage: React.FC = () => {
       list.append(item, i);
     }
     setListArr([...temp]);
-    console.log(list);
   }, []);
 
   const addIndex = async (index: number) => {
@@ -51,7 +49,6 @@ export const ListPage: React.FC = () => {
     let i = 0;
     setValue("");
     if (index === 0 || index === size) {
-      setConstAddLoader(true);
       while (listItem && i <= size) {
         if (i === index || (index === size && i === index - 1)) {
           temp.push({
@@ -77,7 +74,6 @@ export const ListPage: React.FC = () => {
       await delay(SHORT_DELAY_IN_MS);
     } else {
       setIndex("");
-      setAddLoader(true);
       let j = 0;
       while (j <= index) {
         temp = [];
@@ -133,11 +129,8 @@ export const ListPage: React.FC = () => {
       i++;
       listItem = listItem.next;
     }
-    setConstAddLoader(false);
-    setAddLoader(false);
+    setLoader({...initialLoader})
     setListArr([...temp]);
-    //console.log(listItem);
-    //console.log(temp);
     await delay(SHORT_DELAY_IN_MS);
     temp[index].state = ElementStates.Default;
     setListArr([...temp]);
@@ -149,7 +142,6 @@ export const ListPage: React.FC = () => {
     let listItem = list.getHead();
     let i = 0;
     if (index === 0 || index === size) {
-      setConstDelLoader(true);
       while (listItem && i <= size) {
         if (index === i || (index === size && i === index - 1)) {
           let delItem: TWord = {
@@ -180,7 +172,6 @@ export const ListPage: React.FC = () => {
       await delay(SHORT_DELAY_IN_MS);
     } else {
       setIndex("");
-      setDelLoader(true);
       let j = 0;
       while (j <= index) {
         temp = [];
@@ -188,7 +179,6 @@ export const ListPage: React.FC = () => {
         listItem = list.getHead();
         while (listItem && i <= size) {
           if (i === index && j === index) {
-            console.log(`i:${i} j:${j}`);
             let delItem: TWord = {
               word: listItem.value,
               id: nanoid(),
@@ -226,8 +216,7 @@ export const ListPage: React.FC = () => {
         await delay(SHORT_DELAY_IN_MS);
       }
     }
-    setDelLoader(false);
-    setConstDelLoader(false);
+    
     list.delete(index === size ? index - 1 : index);
     size = list.getSize();
     listItem = list.getHead();
@@ -245,6 +234,7 @@ export const ListPage: React.FC = () => {
       listItem = listItem.next;
     }
     await delay(SHORT_DELAY_IN_MS);
+    setLoader({...initialLoader})
     setListArr([...temp]);
   };
 
@@ -264,37 +254,45 @@ export const ListPage: React.FC = () => {
           extraClass={style.smallBtn}
           text="Добавить в head"
           type="button"
-          onClick={() => addIndex(0)}
-          isLoader={constAddLoader}
-          disabled={value === "" ? true : false}
+          onClick={() => {
+            setLoader({...loader, constAddLoaderHead: true})
+            addIndex(0)
+          }}
+          isLoader={loader.constAddLoaderHead}
+          disabled={value === "" || isDisableByLoad ? true : false}
         />
         <Button
           extraClass={style.smallBtn}
           text="Добавить в tail"
           type="button"
-          onClick={() => addIndex(listArr ? listArr.length : 0)}
-          isLoader={constAddLoader}
-          disabled={value === "" ? true : false}
+          onClick={() => {
+            setLoader({...loader, constAddLoaderTail: true})
+            addIndex(listArr ? listArr.length : 0)
+          }}
+          isLoader={loader.constAddLoaderTail}
+          disabled={value === "" || isDisableByLoad ? true : false}
         />
         <Button
           extraClass={style.smallBtn}
           text="Удалить из head"
-          type="button"
+          type="button" 
           onClick={() => {
+            setLoader({...loader, constDelLoaderHead: true})
             delIndex(0);
           }}
-          isLoader={constDelLoader}
-          disabled={list.getSize() === 0 ? true : false}
+          isLoader={loader.constDelLoaderHead}
+          disabled={list.getSize() === 0 || isDisableByLoad ? true : false}
         />
         <Button
           extraClass={style.smallBtn}
           text="Удалить из tail"
           type="button"
           onClick={() => {
+            setLoader({...loader, constDelLoaderTail: true})
             delIndex(listArr ? listArr.length : 0);
           }}
-          isLoader={constDelLoader}
-          disabled={list.getSize() === 0 ? true : false}
+          isLoader={loader.constDelLoaderTail}
+          disabled={list.getSize() === 0 || isDisableByLoad ? true : false}
         />
       </div>
       <div className={style.indexCont}>
@@ -306,22 +304,30 @@ export const ListPage: React.FC = () => {
           value={index}
           type="number"
           min={0}
+          max={listArr ? listArr.length : 0}
         />
         <Button
           extraClass={style.bigBtn}
           text="Добавить по индексу"
           type="button"
-          onClick={() => addIndex(Number(index))}
-          isLoader={addLoader}
-          disabled={value === "" || index === "" ? true : false}
+          onClick={() => {
+            setLoader({...loader, indexAddLoader: true})
+            addIndex(Number(index))
+          }}
+          isLoader={loader.indexAddLoader}
+          disabled={(value === "" || index === "" || Number(index) > (listArr ? listArr.length : 0) || Number(index) < 0 || isDisableByLoad) ? true : false}
         />
         <Button
           extraClass={style.bigBtn}
           text="Удалить по индексу"
           type="button"
-          onClick={() => delIndex(Number(index))}
-          isLoader={delLoader}
-          disabled={index === "" ? true : false}
+          onClick={() => 
+            {
+              setLoader({...loader, indexDelLoader: true})
+              delIndex(Number(index))
+            }}
+          isLoader={loader.indexDelLoader}
+          disabled={index === "" || Number(index) < 0 || Number(index) > list.getSize() - 1 || isDisableByLoad ? true : false ? true : false}
         />
       </div>
       <div className={style.circleCont}>

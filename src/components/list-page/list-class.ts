@@ -30,11 +30,8 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
     let temp = new ListItem<T>(element);
     if (index === 0) {
-      console.log(this.head);
       temp.next = this.head;
-      console.log(this.head);
       this.head = temp;
-      console.log(this.head);
     } else {
       let curr = this.head;
       let currIndex = 0;

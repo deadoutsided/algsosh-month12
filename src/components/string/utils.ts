@@ -12,7 +12,7 @@ export async function reverse(
   for (let i = 0; i <= Math.floor((size + 1) / 2); i++) {
     if (i > size - i) return;
     if (i === size - i) {
-      await delay(SHORT_DELAY_IN_MS);
+      await delay(DELAY_IN_MS);
       changeStates(arr, ElementStates.Modified, [i, size - i]);
       return;
     }
@@ -23,6 +23,5 @@ export async function reverse(
     swap(arr, i, size - i);
     changeStates(arr, ElementStates.Modified, [i, size - i]);
     setState([...arr]);
-    console.log(`I:${i}  SIZE-i:${size - i}`);
   }
 }

@@ -36,8 +36,9 @@ export const FibonacciPage: React.FC = () => {
         <Button
           isLoader={isLoader}
           type="button"
-          text="Развернуть"
+          text="Рассчитать"
           onClick={onSubmit}
+          disabled={Number(value) > 19 || Number(value) < 1 ? true : false}
         />
       </div>
       <div className={style.circles}>
