@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { Button } from "../ui/button/button";
@@ -13,7 +13,6 @@ import style from "./sorting-page.module.css";
 
 export const SortingPage: React.FC = () => {
   const [isLoader, setLoader] = useState<boolean>(false);
-  //const [direction, setDirection] = useState<Direction>();
   const [sortType, setSortType] = useState<SortType>(SortType.Choose);
   const [arr, setArr] = useState<TColumnState[]>();
 
@@ -37,6 +36,10 @@ export const SortingPage: React.FC = () => {
     });
     setArr([...columnObjs]);
   };
+
+  useEffect(() => {
+    setRandomArr();
+  }, []);
 
   const sort = async (dir: Direction) => {
     const tempArr: TColumnState[] | undefined = arr;
