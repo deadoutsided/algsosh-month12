@@ -1,0 +1,14 @@
+.formCont{
+  display: flex;
+  flex-direction: row;
+  column-gap: 12px;
+  max-width: 530px;
+  margin: 0 auto 0 auto;
+}
+
+.circles{
+  display: flex;
+  margin: 120px 0 0;
+  justify-content: center;
+  column-gap: 16px;
+}

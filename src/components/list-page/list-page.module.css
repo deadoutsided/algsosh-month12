@@ -1,0 +1,40 @@
+.valueCont{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 auto 38px;
+  column-gap: 12px;
+}
+
+.indexCont{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 auto 0;
+  column-gap: 12px;
+}
+
+.circleCont{
+  display: flex;
+  column-gap: 16px;
+  justify-content: center;
+  margin: 120px auto 0;
+}
+
+.circleCover{
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+}
+
+.input{
+  max-width: 210px;
+}
+
+.smallBtn{
+  width: 175px
+}
+
+.bigBtn{
+  width: 362px;
+}
