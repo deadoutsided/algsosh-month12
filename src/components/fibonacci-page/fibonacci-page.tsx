@@ -4,7 +4,7 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import style from "./fibonacci-page.module.css";
 import { TWord } from "../../types/words-state";
-import { logFibSeq } from "./algo";
+import { logFibSeq } from "./utils";
 import { Circle } from "../ui/circle/circle";
 
 export const FibonacciPage: React.FC = () => {

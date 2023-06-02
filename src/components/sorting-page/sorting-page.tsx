@@ -6,7 +6,7 @@ import { Direction } from "../../types/direction";
 import { SortType } from "../../types/sort";
 import { TColumnState } from "../../types/column-state";
 import { randomArr } from "../../utils/utils";
-import { ArrRestrictions, bubbleSort, choiceSort } from "./algos";
+import { ArrRestrictions, bubbleSort, choiceSort } from "./utils";
 import { ElementStates } from "../../types/element-states";
 import { Column } from "../ui/column/column";
 import style from "./sorting-page.module.css";

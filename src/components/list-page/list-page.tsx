@@ -3,7 +3,7 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import style from "./list-page.module.css";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
-import { LinkedList } from "../../types/list-class";
+import { LinkedList } from "./list-class";
 import { TWord } from "../../types/words-state";
 import { ElementStates } from "../../types/element-states";
 import { Circle } from "../ui/circle/circle";

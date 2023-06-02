@@ -5,7 +5,7 @@ import { Button } from "../ui/button/button";
 import { TWord } from "../../types/words-state";
 import style from "./stack-page.module.css";
 import { Circle } from "../ui/circle/circle";
-import { Stack } from "../../types/stack-class";
+import { Stack } from "./stack-class";
 import { ElementStates } from "../../types/element-states";
 import { delay } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";

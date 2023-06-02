@@ -6,7 +6,7 @@ import { Circle } from "../ui/circle/circle";
 import style from "./string.module.css";
 import { TWord } from "../../types/words-state";
 import { ElementStates } from "../../types/element-states";
-import { reverse } from "./algos";
+import { reverse } from "./utils";
 
 export const StringComponent: React.FC = () => {
   const [value, changeValue] = useState<string>("");
