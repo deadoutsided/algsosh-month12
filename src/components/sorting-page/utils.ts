@@ -16,6 +16,7 @@ export async function choiceSort(
   setState: React.Dispatch<React.SetStateAction<TColumnState[] | undefined>>,
   direction: Direction
 ): Promise<void> {
+  if(arr.length === 0) return;
   if (direction === Direction.Ascending) {
     for (let i = 0; i <= arr.length - 1; i++) {
       let minInd = i;
@@ -66,6 +67,7 @@ export async function bubbleSort(
   setState: React.Dispatch<React.SetStateAction<TColumnState[] | undefined>>,
   direction: Direction
 ): Promise<void> {
+  if(arr.length === 0) return;
   if (direction === Direction.Ascending) {
     for (let j = 0; j <= arr.length - 1; j++) {
       for (let i = 0; i < arr.length - 1 - j; i++) {

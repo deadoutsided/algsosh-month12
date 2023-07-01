@@ -14,7 +14,7 @@ export function changeStates(
   state: ElementStates,
   indexes: number[]
 ): void {
-  indexes.forEach((i) => (el[i].state = state));
+  indexes.forEach((i) => {if(el[i] !== undefined) el[i].state = state});
 }
 
 export const delay = (milsecs: number) => {
