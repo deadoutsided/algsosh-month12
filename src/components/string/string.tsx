@@ -36,6 +36,7 @@ export const StringComponent: React.FC = () => {
           type="text"
           onChange={changeInput}
           value={value}
+          data-testid="mainInput"
         />
         <Button
           isLoader={isLoader}
@@ -43,6 +44,7 @@ export const StringComponent: React.FC = () => {
           text="Развернуть"
           onClick={onSubmit}
           disabled={(value.length - 1) > 11 || (value.length) < 1 ? true : false}
+          data-testid="actionButton"
         />
       </div>
       <div className={style.circles}>

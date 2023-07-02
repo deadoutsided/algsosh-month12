@@ -32,6 +32,7 @@ export const FibonacciPage: React.FC = () => {
           type="number"
           onChange={changeInput}
           value={value}
+          data-testid="mainInput"
         />
         <Button
           isLoader={isLoader}
@@ -39,6 +40,7 @@ export const FibonacciPage: React.FC = () => {
           text="Рассчитать"
           onClick={onSubmit}
           disabled={Number(value) > 19 || Number(value) < 1 ? true : false}
+          data-testid="actionButton"
         />
       </div>
       <div className={style.circles}>

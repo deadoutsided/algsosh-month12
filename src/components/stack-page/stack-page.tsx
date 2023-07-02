@@ -70,6 +70,7 @@ export const StackPage: React.FC = () => {
             setValue(e.target.value)
           }
           value={value}
+          data-testid="mainInput"
         />
         <Button
           text="Добавить"
@@ -77,6 +78,7 @@ export const StackPage: React.FC = () => {
           onClick={clickPush}
           isLoader={addLoader}
           disabled={(value.length < 1 || delLoader || clearLoader) ? true : false}
+          data-testid="actionButton"
         />
         <Button
           extraClass={style.delBtn}
@@ -85,6 +87,7 @@ export const StackPage: React.FC = () => {
           onClick={clickDelete}
           isLoader={delLoader}
           disabled={stack.getContainer().length === 0 || addLoader || clearLoader ? true : false}
+          data-testid="delButton"
         />
         <Button
           text="Очистить"
@@ -92,6 +95,7 @@ export const StackPage: React.FC = () => {
           onClick={erase}
           isLoader={clearLoader}
           disabled={stack.getContainer().length === 0 || addLoader || delLoader ? true : false}
+          data-testid="clearButton"
         />
       </div>
       <div className={style.circleCont}>
