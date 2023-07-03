@@ -123,6 +123,7 @@ export const QueuePage: React.FC = () => {
             setValue(e.target.value)
           }
           value={value}
+          data-testid="mainInput"
         />
         <Button
           text="Добавить"
@@ -130,6 +131,7 @@ export const QueuePage: React.FC = () => {
           onClick={() => addValue(value)}
           isLoader={addLoader}
           disabled={value === "" || delLoader || clearLoader? true : false}
+          data-testid="actionButton"
         />
         <Button
           extraClass={style.delBtn}
@@ -138,12 +140,14 @@ export const QueuePage: React.FC = () => {
           onClick={deleteValue}
           isLoader={delLoader}
           disabled={length === 0 || addLoader || clearLoader ? true : false}
+          data-testid="delButton"
         />
         <Button
           text="Очистить"
           type="button"
           onClick={clear}
           disabled={length === 0 || addLoader || delLoader ? true : false}
+          data-testid="clearButton"
         />
       </div>
       <div className={style.circleCont}>

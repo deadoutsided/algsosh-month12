@@ -24,15 +24,14 @@ export const ListPage: React.FC = () => {
   useEffect(() => {
     let temp: TWord[] | null = [];
     for (let i = 0; i < 4; i++) {
-      const item = `${Math.floor(Math.random() * 10 + 1)}`;
       temp.push({
-        word: `${item}`,
+        word: `${i + 4}`,
         id: i,
         state: ElementStates.Default,
         head: i === 0 ? "head" : "",
         tail: i === 3 ? "tail" : "",
       });
-      list.append(item, i);
+      list.append(`${i + 4}`, i);
     }
     setListArr([...temp]);
   }, []);
@@ -249,6 +248,7 @@ export const ListPage: React.FC = () => {
             setValue(e.target.value)
           }
           value={value}
+          data-testid="mainInput"
         />
         <Button
           extraClass={style.smallBtn}
@@ -260,6 +260,7 @@ export const ListPage: React.FC = () => {
           }}
           isLoader={loader.constAddLoaderHead}
           disabled={value === "" || isDisableByLoad ? true : false}
+          data-testid="actionButton"
         />
         <Button
           extraClass={style.smallBtn}
@@ -271,6 +272,7 @@ export const ListPage: React.FC = () => {
           }}
           isLoader={loader.constAddLoaderTail}
           disabled={value === "" || isDisableByLoad ? true : false}
+          data-testid="actionButton"
         />
         <Button
           extraClass={style.smallBtn}
@@ -282,6 +284,7 @@ export const ListPage: React.FC = () => {
           }}
           isLoader={loader.constDelLoaderHead}
           disabled={list.getSize() === 0 || isDisableByLoad ? true : false}
+          data-testid="delButton"
         />
         <Button
           extraClass={style.smallBtn}
@@ -293,6 +296,7 @@ export const ListPage: React.FC = () => {
           }}
           isLoader={loader.constDelLoaderTail}
           disabled={list.getSize() === 0 || isDisableByLoad ? true : false}
+          data-testid="delButton"
         />
       </div>
       <div className={style.indexCont}>
@@ -305,6 +309,7 @@ export const ListPage: React.FC = () => {
           type="number"
           min={0}
           max={listArr ? listArr.length : 0}
+          data-testid="mainInput"
         />
         <Button
           extraClass={style.bigBtn}
@@ -316,6 +321,7 @@ export const ListPage: React.FC = () => {
           }}
           isLoader={loader.indexAddLoader}
           disabled={(value === "" || index === "" || Number(index) > (listArr ? listArr.length : 0) || Number(index) < 0 || isDisableByLoad) ? true : false}
+          data-testid="actionButton"
         />
         <Button
           extraClass={style.bigBtn}
@@ -328,13 +334,14 @@ export const ListPage: React.FC = () => {
             }}
           isLoader={loader.indexDelLoader}
           disabled={index === "" || Number(index) < 0 || Number(index) > list.getSize() - 1 || isDisableByLoad ? true : false ? true : false}
+          data-testid="delButton"
         />
       </div>
       <div className={style.circleCont}>
         {listArr &&
           listArr.map((el, i) => {
             return (
-              <div className={style.circleCover} key={i}>
+              <div data-testid="listCircle" className={style.circleCover} key={i}>
                 <Circle
                   letter={el.word}
                   key={el.id}

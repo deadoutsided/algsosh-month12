@@ -13,3 +13,4 @@ export const delButton = '[data-testid="delButton"]';
 export const clearButton = '[data-testid="clearButton"]';
 export const mainInput = '[data-testid="mainInput"]';
 export const circleIndex = '[data-testid="circleIndex"]';
+export const listCircle = '[data-testid="listCircle"]';
